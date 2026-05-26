@@ -17,17 +17,26 @@ class LoginScreen extends StatelessWidget {
               SizedBox(height: 100),
 
               Text(
-                "loging",
+                "Sign Up",
                 style: TextStyle(fontSize: 26, fontWeight: FontWeight.w600),
               ),
               SizedBox(height: 15),
               Text(
-                "Enter your email and password",
+                "Enter your credentials to continue",
                 style: TextStyle(fontSize: 16),
               ),
               SizedBox(height: 40),
-              Text("Email"),
+              Text("Username"),
               TextFormField(),
+
+              SizedBox(height: 30),
+              Text("Email"),
+              TextFormField(
+                obscureText: false,
+                decoration: InputDecoration(
+                  suffix: Icon(Icons.check_circle, color: Colors.green),
+                ),
+              ),
 
               SizedBox(height: 30),
               Text("Password"),
@@ -39,10 +48,39 @@ class LoginScreen extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 20),
-              Align(
-                alignment: Alignment.bottomRight,
-                child: Text("Forgot Password?"),
+              Row(
+                children: [
+                  Expanded(
+                    child: RichText(
+                      text: TextSpan(
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.grey.shade600,
+                        ),
+                        children: [
+                          TextSpan(text: "By continuing you agree to our "),
+                          TextSpan(
+                            text: "Terms of Service",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              color: Color(0xfff53b175),
+                            ),
+                          ),
+                          TextSpan(text: " and "),
+                          TextSpan(
+                            text: "Privacy Policy.",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              color: Color(0xfff53b175),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
+
               SizedBox(height: 30),
               Container(
                 width: double.infinity,
@@ -53,7 +91,7 @@ class LoginScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(19),
                 ),
                 child: Text(
-                  "login",
+                  "Sing Up",
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 18,
@@ -63,9 +101,10 @@ class LoginScreen extends StatelessWidget {
               ),
               SizedBox(height: 25),
               Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    "Don't have an account? ",
+                    "Already have an account? ",
                     style: TextStyle(fontWeight: FontWeight.w600),
                   ),
                   Text(
