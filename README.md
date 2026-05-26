@@ -1,16 +1,3 @@
-# eraasoft_task
-
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+task 1 : sign up 
+<img width="397" height="840" alt="Screenshot 2026-05-26 050748" src="https://github.com/user-attachments/assets/d568b2fd-dbc7-4540-a6f1-bd2f0f833789" />
+<img width="1916" height="963" alt="Screenshot 2026-05-26 050732" src="https://github.com/user-attachments/assets/c23e12c9-7339-4221-ac70-c88b3fb94cfd" />
