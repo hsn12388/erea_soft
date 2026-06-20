@@ -1,3 +1,4 @@
+import 'package:eraasoft_task/screens/home/home_screen.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -44,20 +45,28 @@ class LoginScreen extends StatelessWidget {
                 child: Text("Forgot Password?"),
               ),
               SizedBox(height: 30),
-              Container(
-                width: double.infinity,
-                height: 67,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  color: Color(0xff53B175),
-                  borderRadius: BorderRadius.circular(19),
-                ),
-                child: Text(
-                  "login",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (conext) => HomeScreen()),
+                  );
+                },
+                child: Container(
+                  width: double.infinity,
+                  height: 67,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: Color(0xff53B175),
+                    borderRadius: BorderRadius.circular(19),
+                  ),
+                  child: Text(
+                    "login",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
               ),
