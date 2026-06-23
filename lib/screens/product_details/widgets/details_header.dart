@@ -25,7 +25,7 @@ class detalsHeaderScreen extends StatelessWidget {
             ),
             SizedBox(height: 27),
             Image.asset(
-              'assets/images/Group.png',
+              'assets/images/pngfuel.png',
               width: 329,
               height: 199,
               fit: BoxFit.fill,

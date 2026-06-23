@@ -24,12 +24,12 @@ class productItem extends StatelessWidget {
           ),
           SizedBox(height: 5),
           Text('1kg , priceg', style: TextStyle(color: Color(0xff7C7C7C))),
-          SizedBox(height: 20),
+          SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "\4.99",
+                "4.99",
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
               ),
               Container(
