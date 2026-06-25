@@ -67,7 +67,6 @@ class _ExploreScreenState extends State<ExploreScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const SizedBox(height: 24),
-              // Title
               const Text(
                 'Find Products',
                 style: TextStyle(
@@ -77,7 +76,6 @@ class _ExploreScreenState extends State<ExploreScreen> {
                 ),
               ),
               const SizedBox(height: 20),
-              // Search Bar
               Container(
                 decoration: BoxDecoration(
                   color: const Color(0xFFF2F3F2),
@@ -99,7 +97,6 @@ class _ExploreScreenState extends State<ExploreScreen> {
                 ),
               ),
               const SizedBox(height: 20),
-              // Categories Grid
               Expanded(
                 child: GridView.builder(
                   itemCount: categories.length,
@@ -130,7 +127,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
           MaterialPageRoute(
             builder: (_) => CategoryScreen(
               categoryName: cat['title'].toString().replaceAll('\n', ' '),
-              products: [], // هنحط المنتجات هنا
+              products: [], 
             ),
           ),
         );
@@ -144,7 +141,6 @@ class _ExploreScreenState extends State<ExploreScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Product image
             SizedBox(
               height: 105,
               child: Padding(
@@ -153,7 +149,6 @@ class _ExploreScreenState extends State<ExploreScreen> {
                   cat['imagePath'],
                   fit: BoxFit.contain,
                   errorBuilder: (context, error, stackTrace) {
-                    // Fallback icon if image not found
                     return Icon(
                       Icons.image_not_supported_outlined,
                       size: 60,
@@ -164,7 +159,6 @@ class _ExploreScreenState extends State<ExploreScreen> {
               ),
             ),
             const SizedBox(height: 10),
-            // Category name
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: Text(
