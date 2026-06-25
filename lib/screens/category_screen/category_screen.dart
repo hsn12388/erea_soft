@@ -39,7 +39,6 @@ class _CategoryScreenState extends State<CategoryScreen> {
           IconButton(
             icon: const Icon(Icons.tune, color: Colors.black),
             onPressed: () {
-              // TODO: open filter
             },
           ),
         ],
@@ -75,7 +74,6 @@ class _CategoryScreenState extends State<CategoryScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Product Image
             Expanded(
               child: Center(
                 child: Image.asset(
@@ -92,7 +90,6 @@ class _CategoryScreenState extends State<CategoryScreen> {
               ),
             ),
             const SizedBox(height: 8),
-            // Product Name
             Text(
               product['name'],
               style: const TextStyle(
@@ -104,13 +101,11 @@ class _CategoryScreenState extends State<CategoryScreen> {
               overflow: TextOverflow.ellipsis,
             ),
             const SizedBox(height: 2),
-            // Size / Description
             Text(
               product['size'],
               style: TextStyle(fontSize: 12, color: Colors.grey[500]),
             ),
             const SizedBox(height: 6),
-            // Price + Add Button
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -124,7 +119,6 @@ class _CategoryScreenState extends State<CategoryScreen> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    // TODO: add to cart
                   },
                   child: Container(
                     width: 32,
