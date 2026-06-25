@@ -99,30 +99,27 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            // 🎯 🖼️ الإبعاد المعدلة حسب أبعادك (30×55)
                             Container(
-                              width: 75, // 👈 Container عرض أكبر شوية من الصورة
+                              width: 75, 
                               height:
-                                  95, // 👈 Container ارتفاع أعلى عشان الصورة الطولية (55px)
+                                  95,
                               decoration: BoxDecoration(
                                 color: Color(
                                   0xFFF5F5F5,
-                                ), // خلفية رمادي فاتح جداً
+                                ), 
                                 borderRadius: BorderRadius.circular(12),
                               ),
 
-                              // هنا بنخلي الصورة في المنتصف مع الأبعاد الحقيقية
                               child: Center(
                                 child: Padding(
                                   padding: const EdgeInsets.all(
                                     12.0,
-                                  ), // 👈 ~12px padding (أقرب لـ 32px بتاعك نسبياً)
+                                  ), 
                                   child: Image.asset(
                                     item['image'],
-                                    // 👇 الأبعاد الحقيقية للصورة اللي ابتعتهالي
-                                    width: 32, // ≈ 30.9px
-                                    height: 56, // ≈ 54.9px
-                                    fit: BoxFit.contain, // يحافظ على التناسب
+                                    width: 32, 
+                                    height: 56,
+                                    fit: BoxFit.contain, 
                                   ),
                                 ),
                               ),
@@ -130,7 +127,6 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
 
                             const SizedBox(width: 14),
 
-                            // التفاصيل
                             Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -153,7 +149,6 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                   ),
                                   const SizedBox(height: 14),
 
-                                  // أزرار + -
                                   Row(
                                     children: [
                                       Container(
@@ -214,7 +209,6 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                               ),
                             ),
 
-                            // السعر والحذف
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.end,
                               mainAxisSize: MainAxisSize.min,
@@ -229,7 +223,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                 ),
                                 const SizedBox(
                                   height: 36,
-                                ), // زودنا المسافة عشان نص الارتفاع زاد
+                                ),
                                 Text(
                                   '\$${item['price'].toStringAsFixed(2)}',
                                   style: const TextStyle(
