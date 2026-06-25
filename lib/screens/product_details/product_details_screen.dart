@@ -27,7 +27,6 @@ class ProductDetailsScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // ----------------- صورة التفاح -----------------
             Container(
               width: double.infinity,
               height: 200,
@@ -41,7 +40,6 @@ class ProductDetailsScreen extends StatelessWidget {
             ),
             const SizedBox(height: 16),
 
-            // ----------------- اسم المنتج -----------------
             const Text(
               "Naturel Red Apple",
               style: TextStyle(
@@ -52,7 +50,6 @@ class ProductDetailsScreen extends StatelessWidget {
             ),
             const SizedBox(height: 4),
 
-            // ----------------- الوزن + أزرار الكمية -----------------
             Row(
               children: [
                 const Text(
@@ -101,7 +98,6 @@ class ProductDetailsScreen extends StatelessWidget {
             ),
             const SizedBox(height: 4),
 
-            // ----------------- السعر -----------------
             const Text(
               "\$4.99", // علامة $ ظاهرة بشكل صحيح
               style: TextStyle(
@@ -112,7 +108,6 @@ class ProductDetailsScreen extends StatelessWidget {
             ),
             const SizedBox(height: 16),
 
-            // ----------------- Product Detail (القابلة للطي) -----------------
             Container(
               decoration: BoxDecoration(
                 border: Border.all(color: Colors.grey.shade300),
@@ -144,7 +139,6 @@ class ProductDetailsScreen extends StatelessWidget {
             ),
             const SizedBox(height: 16),
 
-            // ----------------- Nutritions + Review -----------------
             Row(
               children: [
                 Expanded(
@@ -205,7 +199,6 @@ class ProductDetailsScreen extends StatelessWidget {
 
             const Spacer(),
 
-            // ----------------- زر Add To Basket -----------------
             SizedBox(
               width: double.infinity,
               height: 55,
