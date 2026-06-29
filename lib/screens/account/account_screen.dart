@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart'; // ⭐ استيراد SVG
+import 'package:flutter_svg/flutter_svg.dart';
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({Key? key}) : super(key: key);
@@ -9,7 +9,6 @@ class AccountScreen extends StatefulWidget {
 }
 
 class _AccountScreenState extends State<AccountScreen> {
-  // 🎨 القائمة مع مسارات SVGs الجديدة (ترتيبهم نفس اللي كتبته)
   final List<Map<String, dynamic>> menuItems = [
     {'svg': 'assets/icons/aa1.svg', 'title': 'Orders'}, // Orders
     {'svg': 'assets/icons/aa2.svg', 'title': 'My Details'}, // My Details
@@ -21,10 +20,7 @@ class _AccountScreenState extends State<AccountScreen> {
       'svg': 'assets/icons/aa4.svg',
       'title': 'Payment Methods',
     }, // Payment Methods
-    {
-      'svg': 'assets/icons/Promo Cord icon.svg',
-      'title': 'Promo Cod',
-    }, // Promo Code (الاسم ده كما هو)
+    {'svg': 'assets/icons/Promo Cord icon.svg', 'title': 'Promo Cod'},
     {'svg': 'assets/icons/aa6.svg', 'title': 'Notifications'}, // Notifications
     {'svg': 'assets/icons/aa7.svg', 'title': 'Help'}, // Help
     {'svg': 'assets/icons/aa8.svg', 'title': 'About'}, // About
@@ -41,7 +37,6 @@ class _AccountScreenState extends State<AccountScreen> {
             children: [
               const SizedBox(height: 30),
 
-              // 👤 البروفايل (نفس السابق)
               Row(
                 children: [
                   Container(
@@ -94,7 +89,6 @@ class _AccountScreenState extends State<AccountScreen> {
 
               SizedBox(height: 35),
 
-              // 📋 القائمة بالأيقونات SVG
               Column(
                 children: [
                   ...menuItems.asMap().entries.map((entry) {
@@ -104,7 +98,7 @@ class _AccountScreenState extends State<AccountScreen> {
                     return Column(
                       children: [
                         _buildSvgMenuItem(
-                          svgPath: item['svg'], // ← المسار هنا
+                          svgPath: item['svg'],
                           title: item['title'],
                           onTap: () {},
                         ),
@@ -124,7 +118,6 @@ class _AccountScreenState extends State<AccountScreen> {
 
               SizedBox(height: 30),
 
-              // 🚪 زر Log Out (نفس الشكل اللي طلبت قبل كده)
               GestureDetector(
                 onTap: () {
                   showDialog(
@@ -197,9 +190,8 @@ class _AccountScreenState extends State<AccountScreen> {
     );
   }
 
-  // 🎯 وداع بناء عنصر القائمة بـ SVG
   Widget _buildSvgMenuItem({
-    required String svgPath, // ← غيّرنا من IconData لـ String
+    required String svgPath,
     required String title,
     required VoidCallback onTap,
   }) {
@@ -210,7 +202,6 @@ class _AccountScreenState extends State<AccountScreen> {
         padding: EdgeInsets.symmetric(vertical: 15),
         child: Row(
           children: [
-            // 🖼️ عرض الأيقونة SVG بدلاً من Icon العادي
             SizedBox(
               width: 26,
               height: 26,
@@ -218,10 +209,8 @@ class _AccountScreenState extends State<AccountScreen> {
                 svgPath,
                 width: 24,
                 height: 24,
-                // 👇 لو الأيقونات بيضا والشكل أحمر/أسود.. ده يخليها سوداء (#212121)
                 colorFilter: ColorFilter.mode(Colors.black87, BlendMode.srcIn),
                 fit: BoxFit.contain,
-                // لو في مشكلة في عرض الصورة، شيل fit: BoxFit.contain
               ),
             ),
 
