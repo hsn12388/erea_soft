@@ -62,12 +62,13 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                               ),
                             ),
                           );
-                          setState(() {});
+                          setState(() {}); // يحدّث القلب لو اتشال
                         },
                         child: Padding(
                           padding: const EdgeInsets.symmetric(vertical: 12),
                           child: Row(
                             children: [
+                              // ✅ صورة المنتج
                               Container(
                                 width: 70,
                                 height: 70,
@@ -101,6 +102,8 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                 ),
                               ),
                               const SizedBox(width: 14),
+
+                              // ✅ الاسم + الوزن
                               Expanded(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -123,6 +126,8 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                   ],
                                 ),
                               ),
+
+                              // ✅ السعر
                               Text(
                                 '\$${double.tryParse(item['price'].toString().replaceAll('\$', ''))?.toStringAsFixed(2) ?? item['price']}',
                                 style: const TextStyle(
@@ -142,6 +147,8 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                     },
                   ),
           ),
+
+          // ✅ زرار Add All To Cart
           if (items.isNotEmpty)
             Padding(
               padding: const EdgeInsets.all(16),
