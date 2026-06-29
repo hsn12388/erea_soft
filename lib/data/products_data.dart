@@ -26,7 +26,6 @@ class Product {
 
 class ProductsData {
   static final List<Product> allProducts = [
-    // ========== BEVERAGES ==========
     Product(
       id: 'b1',
       name: 'Diet Coke',
@@ -87,7 +86,6 @@ class ProductsData {
       category: 'Beverages',
       categoryIcon: Icons.local_drink,
     ),
-    // ========== EGGS ==========
     Product(
       id: 'e1',
       name: 'Egg Chicken Red',

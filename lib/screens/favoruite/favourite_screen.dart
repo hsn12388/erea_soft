@@ -1,3 +1,6 @@
+import 'package:eraasoft_task/screens/product_details/product_details_screen.dart';
+import 'package:eraasoft_task/services/cart_service.dart';
+import 'package:eraasoft_task/services/favourite_service.dart';
 import 'package:flutter/material.dart';
 
 class FavouriteScreen extends StatefulWidget {
@@ -8,66 +11,10 @@ class FavouriteScreen extends StatefulWidget {
 }
 
 class _FavouriteScreenState extends State<FavouriteScreen> {
-  List<Map<String, dynamic>> favItems = [
-    {
-      'id': 1,
-      'name': 'Sprite Can',
-      'weight': '330ml',
-      'price': 1.50,
-      'quantity': 1,
-      'image': 'assets/images/f1.png',
-    },
-    {
-      'id': 2,
-      'name': 'Diet Coke',
-      'weight': '355ml',
-      'price': 1.99,
-      'quantity': 1,
-      'image': 'assets/images/f2.png',
-    },
-    {
-      'id': 3,
-      'name': 'Apple & Grape Juice',
-      'weight': '2L',
-      'price': 15.50,
-      'quantity': 1,
-      'image': 'assets/images/f3.png',
-    },
-    {
-      'id': 4,
-      'name': 'Coca Cola Can',
-      'weight': '325ml',
-      'price': 4.99,
-      'quantity': 1,
-      'image': 'assets/images/f4.png',
-    },
-    {
-      'id': 5,
-      'name': 'Pepsi Can',
-      'weight': '330ml',
-      'price': 4.99,
-      'quantity': 1,
-      'image': 'assets/images/f5.png',
-    },
-  ];
-
-  void updateQuantity(int index, int delta) {
-    setState(() {
-      favItems[index]['quantity'] = (favItems[index]['quantity'] + delta).clamp(
-        0,
-        100,
-      );
-    });
-  }
-
-  void removeItem(int index) {
-    setState(() {
-      favItems.removeAt(index);
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
+    final items = FavouriteService.items;
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -86,168 +33,116 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
       body: Column(
         children: [
           Expanded(
-            child: favItems.isEmpty
-                ? const Center(child: Text('No favourites yet'))
-                : ListView.builder(
+            child: items.isEmpty
+                ? const Center(
+                    child: Text(
+                      'No favourites yet',
+                      style: TextStyle(color: Colors.grey, fontSize: 16),
+                    ),
+                  )
+                : ListView.separated(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
-                    itemCount: favItems.length,
+                    itemCount: items.length,
+                    separatorBuilder: (_, __) => const Divider(),
                     itemBuilder: (context, index) {
-                      final item = favItems[index];
+                      final item = items[index];
+                      final imgPath = item['imageUrl'].toString();
+                      final isNetwork = imgPath.startsWith('http');
 
-                      return Container(
-                        margin: const EdgeInsets.only(bottom: 24),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            // 🎯 🖼️ الإبعاد المعدلة حسب أبعادك (30×55)
-                            Container(
-                              width: 75, // 👈 Container عرض أكبر شوية من الصورة
-                              height:
-                                  95, // 👈 Container ارتفاع أعلى عشان الصورة الطولية (55px)
-                              decoration: BoxDecoration(
-                                color: Color(
-                                  0xFFF5F5F5,
-                                ), // خلفية رمادي فاتح جداً
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-
-                              // هنا بنخلي الصورة في المنتصف مع الأبعاد الحقيقية
-                              child: Center(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(
-                                    12.0,
-                                  ), // 👈 ~12px padding (أقرب لـ 32px بتاعك نسبياً)
-                                  child: Image.asset(
-                                    item['image'],
-                                    // 👇 الأبعاد الحقيقية للصورة اللي ابتعتهالي
-                                    width: 32, // ≈ 30.9px
-                                    height: 56, // ≈ 54.9px
-                                    fit: BoxFit.contain, // يحافظ على التناسب
-                                  ),
-                                ),
+                      return GestureDetector(
+                        onTap: () async {
+                          await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => ProductDetailsScreen(
+                                name: item['name'],
+                                weight: item['weight'],
+                                price: item['price'].toString(),
+                                imageUrl: imgPath,
                               ),
                             ),
-
-                            const SizedBox(width: 14),
-
-                            // التفاصيل
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    item['name'],
-                                    style: const TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.black87,
+                          );
+                          setState(() {});
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                          child: Row(
+                            children: [
+                              Container(
+                                width: 70,
+                                height: 70,
+                                decoration: BoxDecoration(
+                                  color: const Color(0xffF2F3F2),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(12),
+                                  child: isNetwork
+                                      ? Image.network(
+                                          imgPath,
+                                          fit: BoxFit.contain,
+                                          errorBuilder: (_, __, ___) =>
+                                              const Icon(
+                                                Icons.image_not_supported,
+                                                size: 30,
+                                                color: Colors.grey,
+                                              ),
+                                        )
+                                      : Image.asset(
+                                          imgPath,
+                                          fit: BoxFit.contain,
+                                          errorBuilder: (_, __, ___) =>
+                                              const Icon(
+                                                Icons.image_not_supported,
+                                                size: 30,
+                                                color: Colors.grey,
+                                              ),
+                                        ),
+                                ),
+                              ),
+                              const SizedBox(width: 14),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      item['name'],
+                                      style: const TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w600,
+                                      ),
                                     ),
-                                  ),
-                                  const SizedBox(height: 6),
-                                  Text(
-                                    '${item['weight']}, Price',
-                                    style: TextStyle(
-                                      fontSize: 13,
-                                      color: Colors.grey[500],
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      '${item['weight']}, Price',
+                                      style: const TextStyle(
+                                        fontSize: 13,
+                                        color: Colors.grey,
+                                      ),
                                     ),
-                                  ),
-                                  const SizedBox(height: 14),
-
-                                  // أزرار + -
-                                  Row(
-                                    children: [
-                                      Container(
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          border: Border.all(
-                                            color: Colors.grey[300]!,
-                                          ),
-                                        ),
-                                        child: IconButton(
-                                          icon: const Icon(
-                                            Icons.remove,
-                                            size: 18,
-                                          ),
-                                          onPressed: () =>
-                                              updateQuantity(index, -1),
-                                          padding: const EdgeInsets.all(8),
-                                          constraints: const BoxConstraints(),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                          horizontal: 16,
-                                        ),
-                                        child: Text(
-                                          '${item['quantity']}',
-                                          style: const TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16,
-                                          ),
-                                        ),
-                                      ),
-                                      Container(
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          border: Border.all(
-                                            color: Color(0xFF53B175),
-                                          ),
-                                          color: Color(
-                                            0xFF53B175,
-                                          ).withOpacity(0.1),
-                                        ),
-                                        child: IconButton(
-                                          icon: Icon(
-                                            Icons.add,
-                                            size: 18,
-                                            color: Color(0xFF53B175),
-                                          ),
-                                          onPressed: () =>
-                                              updateQuantity(index, 1),
-                                          padding: const EdgeInsets.all(8),
-                                          constraints: const BoxConstraints(),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
-                            ),
-
-                            // السعر والحذف
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                GestureDetector(
-                                  onTap: () => removeItem(index),
-                                  child: Icon(
-                                    Icons.close,
-                                    color: Colors.grey[400],
-                                    size: 22,
-                                  ),
+                              Text(
+                                '\$${double.tryParse(item['price'].toString().replaceAll('\$', ''))?.toStringAsFixed(2) ?? item['price']}',
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
                                 ),
-                                const SizedBox(
-                                  height: 36,
-                                ), // زودنا المسافة عشان نص الارتفاع زاد
-                                Text(
-                                  '\$${item['price'].toStringAsFixed(2)}',
-                                  style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black87,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
+                              ),
+                              const SizedBox(width: 8),
+                              const Icon(
+                                Icons.chevron_right,
+                                color: Colors.grey,
+                              ),
+                            ],
+                          ),
                         ),
                       );
                     },
                   ),
           ),
-
-          if (favItems.isNotEmpty)
+          if (items.isNotEmpty)
             Padding(
               padding: const EdgeInsets.all(16),
               child: SizedBox(
@@ -261,7 +156,17 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                     ),
                     elevation: 0,
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    for (final item in items) {
+                      CartService.addItem(item);
+                    }
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('All items added to cart!'),
+                        backgroundColor: Color(0xff53B175),
+                      ),
+                    );
+                  },
                   child: const Text(
                     'Add All To Cart',
                     style: TextStyle(

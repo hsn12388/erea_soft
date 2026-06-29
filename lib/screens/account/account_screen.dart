@@ -10,20 +10,14 @@ class AccountScreen extends StatefulWidget {
 
 class _AccountScreenState extends State<AccountScreen> {
   final List<Map<String, dynamic>> menuItems = [
-    {'svg': 'assets/icons/aa1.svg', 'title': 'Orders'}, // Orders
-    {'svg': 'assets/icons/aa2.svg', 'title': 'My Details'}, // My Details
-    {
-      'svg': 'assets/icons/aa3.svg',
-      'title': 'Delivery Address',
-    }, // Delivery Address
-    {
-      'svg': 'assets/icons/aa4.svg',
-      'title': 'Payment Methods',
-    }, // Payment Methods
+    {'svg': 'assets/icons/aa1.svg', 'title': 'Orders'},
+    {'svg': 'assets/icons/aa2.svg', 'title': 'My Details'},
+    {'svg': 'assets/icons/aa3.svg', 'title': 'Delivery Address'},
+    {'svg': 'assets/icons/aa4.svg', 'title': 'Payment Methods'},
     {'svg': 'assets/icons/Promo Cord icon.svg', 'title': 'Promo Cod'},
-    {'svg': 'assets/icons/aa6.svg', 'title': 'Notifications'}, // Notifications
-    {'svg': 'assets/icons/aa7.svg', 'title': 'Help'}, // Help
-    {'svg': 'assets/icons/aa8.svg', 'title': 'About'}, // About
+    {'svg': 'assets/icons/aa6.svg', 'title': 'Notifications'},
+    {'svg': 'assets/icons/aa7.svg', 'title': 'Help'},
+    {'svg': 'assets/icons/aa8.svg', 'title': 'About'},
   ];
 
   @override

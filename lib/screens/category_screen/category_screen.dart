@@ -1,8 +1,11 @@
+import 'package:eraasoft_task/screens/filter/filter_screen.dart';
+import 'package:eraasoft_task/screens/product_details/product_details_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class CategoryScreen extends StatefulWidget {
   final String categoryName;
-  final List<Map<String, dynamic>> products;
+  final List<Map<String, String>> products;
 
   const CategoryScreen({
     super.key,
@@ -15,6 +18,35 @@ class CategoryScreen extends StatefulWidget {
 }
 
 class _CategoryScreenState extends State<CategoryScreen> {
+  List<Map<String, String>> _displayedProducts = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _displayedProducts = widget.products;
+  }
+
+  Future<void> _openFilter() async {
+    final result = await Navigator.push<Map<String, List<String>>>(
+      context,
+      MaterialPageRoute(builder: (_) => const FilterScreen()),
+    );
+
+    if (result != null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'Filters applied: '
+            '${(result['categories'] ?? []).length} categories, '
+            '${(result['brands'] ?? []).length} brands',
+          ),
+          backgroundColor: const Color(0xFF53B175),
+          duration: const Duration(seconds: 2),
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,7 +55,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, color: Colors.black, size: 20),
+          icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
@@ -31,110 +63,131 @@ class _CategoryScreenState extends State<CategoryScreen> {
           style: const TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.bold,
-            fontSize: 18,
+            fontSize: 20,
           ),
         ),
         centerTitle: true,
         actions: [
-          IconButton(
-            icon: const Icon(Icons.tune, color: Colors.black),
-            onPressed: () {
-              // TODO: open filter
-            },
+          Padding(
+            padding: const EdgeInsets.only(right: 20),
+            child: GestureDetector(
+              onTap: _openFilter,
+              child: SvgPicture.asset(
+                'assets/icons/Group 6839.svg',
+                width: 16.8,
+                height: 17.85,
+                placeholderBuilder: (_) =>
+                    const Icon(Icons.tune, color: Colors.black),
+              ),
+            ),
           ),
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8),
-        child: GridView.builder(
-          itemCount: widget.products.length,
-          physics: const BouncingScrollPhysics(),
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            crossAxisSpacing: 12,
-            mainAxisSpacing: 12,
-            childAspectRatio: 0.75,
-          ),
-          itemBuilder: (context, index) {
-            return _buildProductCard(widget.products[index]);
-          },
-        ),
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: _displayedProducts.isEmpty
+            ? const Center(
+                child: Text(
+                  'No products available',
+                  style: TextStyle(color: Colors.grey, fontSize: 16),
+                ),
+              )
+            : GridView.builder(
+                itemCount: _displayedProducts.length,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 15,
+                  mainAxisSpacing: 15,
+                  childAspectRatio: 0.62,
+                ),
+                itemBuilder: (context, index) =>
+                    _buildProductCard(_displayedProducts[index]),
+              ),
       ),
     );
   }
 
-  Widget _buildProductCard(Map<String, dynamic> product) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: Colors.grey.shade200, width: 1),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(10.0),
+  Widget _buildProductCard(Map<String, String> p) {
+    final imgPath = p['imagePath'] ?? p['imageUrl'] ?? '';
+    final isNetwork = imgPath.startsWith('http');
+
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => ProductDetailsScreen(
+              name: p['name'] ?? '',
+              weight: p['weight'] ?? '',
+              price: p['price'] ?? '',
+              imageUrl: imgPath,
+            ),
+          ),
+        );
+      },
+      child: Container(
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(18),
+          border: Border.all(color: const Color(0xffE2E2E2)),
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Product Image
             Expanded(
               child: Center(
-                child: Image.asset(
-                  product['imagePath'],
-                  fit: BoxFit.contain,
-                  errorBuilder: (context, error, stackTrace) {
-                    return const Icon(
-                      Icons.image_not_supported_outlined,
-                      size: 60,
-                      color: Colors.grey,
-                    );
-                  },
-                ),
+                child: isNetwork
+                    ? Image.network(
+                        imgPath,
+                        fit: BoxFit.contain,
+                        errorBuilder: (_, __, ___) => const Icon(
+                          Icons.image_not_supported_outlined,
+                          size: 60,
+                          color: Colors.grey,
+                        ),
+                      )
+                    : Image.asset(
+                        imgPath,
+                        fit: BoxFit.contain,
+                        errorBuilder: (_, __, ___) => const Icon(
+                          Icons.image_not_supported_outlined,
+                          size: 60,
+                          color: Colors.grey,
+                        ),
+                      ),
               ),
             ),
             const SizedBox(height: 8),
-            // Product Name
             Text(
-              product['name'],
-              style: const TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
-              ),
+              p['name'] ?? '',
+              style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
             ),
-            const SizedBox(height: 2),
-            // Size / Description
+            const SizedBox(height: 4),
             Text(
-              product['size'],
-              style: TextStyle(fontSize: 12, color: Colors.grey[500]),
+              p['weight'] ?? '',
+              style: const TextStyle(color: Color(0xff7C7C7C), fontSize: 12),
             ),
-            const SizedBox(height: 6),
-            // Price + Add Button
+            const SizedBox(height: 10),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  product['price'],
+                  p['price'] ?? '',
                   style: const TextStyle(
-                    fontSize: 15,
+                    fontSize: 16,
                     fontWeight: FontWeight.bold,
-                    color: Colors.black,
                   ),
                 ),
-                GestureDetector(
-                  onTap: () {
-                    // TODO: add to cart
-                  },
-                  child: Container(
-                    width: 32,
-                    height: 32,
-                    decoration: const BoxDecoration(
-                      color: Color(0xFF4CAF50),
-                      shape: BoxShape.circle,
-                    ),
-                    child: const Icon(Icons.add, color: Colors.white, size: 20),
+                Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(14),
+                    color: const Color(0xff53B175),
                   ),
+                  child: const Icon(Icons.add, color: Colors.white, size: 18),
                 ),
               ],
             ),
@@ -144,57 +197,3 @@ class _CategoryScreenState extends State<CategoryScreen> {
     );
   }
 }
-
-
-// =============================================
-// Ù…Ø«Ø§Ù„ Ø¥Ø²Ø§ÙŠ ØªÙØªØ­ Ø§Ù„ØµÙØ­Ø© Ø¯ÙŠ Ù…Ù† ExploreScreen
-// =============================================
-//
-// final beveragesProducts = [
-//   {
-//     'name': 'Diet Coke',
-//     'size': '355ml, Price',
-//     'price': '\$1.99',
-//     'imagePath': 'assets/images/diet_coke.png',
-//   },
-//   {
-//     'name': 'Sprite Can',
-//     'size': '325ml, Price',
-//     'price': '\$1.50',
-//     'imagePath': 'assets/images/sprite.png',
-//   },
-//   {
-//     'name': 'Apple & Grape Juice',
-//     'size': '2L, Price',
-//     'price': '\$15.99',
-//     'imagePath': 'assets/images/apple_grape_juice.png',
-//   },
-//   {
-//     'name': 'Orange Juice',
-//     'size': '2L, Price',
-//     'price': '\$15.99',
-//     'imagePath': 'assets/images/orange_juice.png',
-//   },
-//   {
-//     'name': 'Coca Cola Can',
-//     'size': '325ml, Price',
-//     'price': '\$4.99',
-//     'imagePath': 'assets/images/coca_cola.png',
-//   },
-//   {
-//     'name': 'Pepsi Can',
-//     'size': '330ml, Price',
-//     'price': '\$4.99',
-//     'imagePath': 'assets/images/pepsi.png',
-//   },
-// ];
-//
-// Navigator.push(
-//   context,
-//   MaterialPageRoute(
-//     builder: (_) => CategoryScreen(
-//       categoryName: 'Beverages',
-//       products: beveragesProducts,
-//     ),
-//   ),
-// );

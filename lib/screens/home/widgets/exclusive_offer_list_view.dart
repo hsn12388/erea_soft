@@ -3,7 +3,9 @@ import 'package:eraasoft_task/screens/product_details/product_details_screen.dar
 import 'package:flutter/material.dart';
 
 class ExclusiveOfferListView extends StatelessWidget {
-  const ExclusiveOfferListView({super.key});
+  final List<Map<String, String>> products;
+
+  const ExclusiveOfferListView({super.key, required this.products});
 
   @override
   Widget build(BuildContext context) {
@@ -11,18 +13,30 @@ class ExclusiveOfferListView extends StatelessWidget {
       height: 270,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
-        itemBuilder: (contaxt, index) => InkWell(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (contaxt) => ProductDetailsScreen()),
-            );
-          },
-
-          child: productItem(),
-        ),
-        separatorBuilder: (contaxt, index) => SizedBox(width: 10),
-        itemCount: 10,
+        itemCount: products.length,
+        separatorBuilder: (_, __) => const SizedBox(width: 15),
+        itemBuilder: (context, index) {
+          final p = products[index];
+          return ProductItem(
+            name: p['name']!,
+            weight: p['weight']!,
+            price: p['price']!,
+            imageUrl: p['imageUrl']!,
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => ProductDetailsScreen(
+                    name: p['name']!,
+                    weight: p['weight']!,
+                    price: p['price']!,
+                    imageUrl: p['imageUrl']!,
+                  ),
+                ),
+              );
+            },
+          );
+        },
       ),
     );
   }
